@@ -26,7 +26,10 @@ SECRET_KEY = '(n)72&4&v1u9*jui)f!jue6bxf53w5+kuh0pa8z7ci038gi(7l'
 DEBUG = True    # for local development
 # DEBUG = False   # for production
 
-ALLOWED_HOSTS = ['family-tree-1996.herokuapp.com']
+ALLOWED_HOSTS = [
+    '127.0.0.1',\
+    'family-tree-1996.herokuapp.com'
+    ]
 
 
 # Application definition
