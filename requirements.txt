@@ -13,7 +13,9 @@ chardet==3.0.4
 Click==7.0
 colorclass==2.2.0
 cssselect==1.1.0
+dj-database-url==0.5.0
 Django==3.0.7
+django-heroku==0.3.1
 docutils==0.15.2
 durationpy==0.5
 fake-useragent==0.1.11
@@ -74,6 +76,7 @@ urllib3==1.25.6
 w3lib==1.21.0
 websockets==8.1
 Werkzeug==0.16.0
+whitenoise==5.1.0
 wincertstore==0.2
 wsgi-request-logger==0.4.6
 zipp==3.1.0
