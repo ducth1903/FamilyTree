@@ -1,0 +1,186 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="{% static 'tree/js/treant-js-master/Treant.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'tree/css/index.css' %}" type="text/css"/>
+    <!-- Bootstrap CSS (v2.2.2 since Treant.js uses jQuery v1.8) -->
+    <!-- https://bootstrapdocs.com/v2.2.2/docs/index.html -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap-responsive.css' %}" type="text/css">
+
+    <!-- javascript -->
+    <!-- Treant.js: https://fperucic.github.io/treant-js/ -->
+    <script src="https://kit.fontawesome.com/f06fa8d27a.js" crossorigin="anonymous"></script>
+    <script src="{% static 'tree/js/treant-js-master/vendor/raphael.js' %}"></script>
+    <script src="{% static 'tree/js/treant-js-master/Treant.js' %}"></script>
+    <script src="{% static 'tree/js/treant-js-master/vendor/jquery.min.js' %}"></script>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+    <script src="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/js/bootstrap.min.js' %}"></script>
+    <title>Family Tree</title>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div id="sideNav" class="sidenav">
+        <div>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <h2 style="color: aliceblue; text-align: center;" id="wifeName"></h2>
+            <img id="wifeImg" class="img-circle">
+            <div class="unstyled">
+                <h4 style="color: aliceblue;" id="wifeDOB"></h4>
+            </div>
+        </div>
+        <div class="innerMemberInfo">
+            <h2 style="color: aliceblue; text-align: center;" id="husbandName"></h2>
+            <img id="husbandImg" class="img-circle">
+            <div class="unstyled">
+                <h4 style="color: aliceblue;" id="husbandDOB"></h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <!-- Put in div main if want to push page to the right when showing sidenav -->
+    <div id="main" class="container">
+        <h1 style="text-align: center;">My Family Tree</h1>
+        <div id="tree-simple"></div>
+
+        <!-- Secure way to pass JSON from Django template to Javascript
+        Ref: https://adamj.eu/tech/2020/02/18/safely-including-data-for-javascript-in-a-django-template/ -->
+        {{ flat_json|json_script:"flat_json" }}
+    </div>
+    
+    <script>
+        // Get context data from Django
+        var flat_json = JSON.parse(document.getElementById('flat_json').textContent);
+        console.log(flat_json);
+
+        function openNav(obj) { 
+            document.getElementById("sideNav").style.width = "30%"; 
+            // document.getElementById("main").style.marginLeft = "30%";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            
+            if (flat_json[obj.id]["wife_name"] != null) {
+                // Wife info
+                document.getElementById("wifeName").innerHTML = flat_json[obj.id]["wife_name"];
+                document.getElementById("wifeImg").src = `static/tree/img/members/${flat_json[obj.id]["wife_img"]}`;
+                document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_json[obj.id]["wife_dob"]}`;
+            }
+            else {
+                document.getElementById("wifeName").innerHTML = "N/A";
+                document.getElementById("wifeImg").src = 'static/tree/img/members/blank.png';
+                document.getElementById("wifeDOB").innerHTML = 'DoB: N/A';
+            }
+
+            if (flat_json[obj.id]["husband_name"] != null) {
+                // Husband info
+                document.getElementById("husbandName").innerHTML = flat_json[obj.id]["husband_name"];
+                document.getElementById("husbandImg").src = `static/tree/img/members/${flat_json[obj.id]["husband_img"]}`;
+                document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_json[obj.id]["husband_dob"]}`;
+            }
+            else {
+                document.getElementById("husbandName").innerHTML = "N/A";
+                document.getElementById("husbandImg").src = 'static/tree/img/members/blank.png';
+                document.getElementById("husbandDOB").innerHTML = 'DoB: N/A';
+            }
+        }
+        function closeNav() { 
+            document.getElementById("sideNav").style.width = "0"; 
+            // document.getElementById("main").style.marginLeft = "0";
+            document.body.style.backgroundColor = "white";
+        }
+        function generateInnerHTML(wifeName, husbandName, id) {
+            // return `
+            //     ${wifeName} | ${husbandName}
+            //     <div class="tooltiptext" onclick="openNav(this)" id=${id}>
+            //         <i class="fas fa-info-circle"></i>
+            //     </div>
+            // `;
+            return `
+                <div class="clickableSidebarNode" onclick="openNav(this)" id=${id}>${wifeName} | ${husbandName}</div>
+            `;
+        }
+
+        var simple_chart_config = {
+            chart: {
+                container: "#tree-simple",
+                hideRootNode: true,
+                connectors: {type: "step"},
+                // node: {collapsable: true},
+                siblingSeparation: 70,
+                levelSeparation: 50,
+                nodeAlign: "TOP",
+                // node: { HTMLclass: "tooltip" }
+            },
+            
+            nodeStructure: {
+                text: { name: "Root node" },
+                children: [
+                    {
+                        // text: { name: "Second family" },
+                        innerHTML: generateInnerHTML("Pham Thi Hoa Ly", "Nguyen Tu", "0"),
+                        // HTMLclass: "tooltip",
+                        HTMLid: "second_family_id",
+                        children: [
+                            {   // first child
+                                innerHTML: generateInnerHTML("Nguyen Hong Hoa", "Tran Dac Xuan", "0.0"),
+                                // HTMLclass: "tooltip",
+                                children: [
+                                    {
+                                        innerHTML: generateInnerHTML("Tran Hong Duc", "N/A", "0.0.0"),
+                                        // HTMLclass: "tooltip",
+                                    },
+                                    {
+                                        innerHTML: generateInnerHTML("Tran Hong Hai", "N/A", "0.0.1"),
+                                        // HTMLclass: "tooltip",
+                                    }
+                                ]
+                            },
+                            {   // second child
+                                innerHTML: generateInnerHTML("Nguyen Tung Hoa", "Ngo Trung Son", "0.1"),
+                                // HTMLclass: "tooltip",
+                                children: [
+                                    {
+                                        innerHTML: generateInnerHTML("Ngo Tung", "Ngoc", "0.1.2"),
+                                        // HTMLclass: "tooltip",
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        var my_chart = new Treant(
+            simple_chart_config,
+            function() {},
+            $
+        );
+
+        // var jsonData = JSON.parse(flat_ngoai_data);
+        // $(document).ready(
+        //     $(".node").on('click', function(event){
+        //         // Having a .class selector for Event handler will result in 'bubbling' of click event
+        //         // Thus, need to use stopPropagation() to ensure that event doesn't bubble to Parent elements
+        //         // stopImmediatePropagation() ensures that event doesn't bubble to Children elements
+        //         // Ref: https://stackoverflow.com/questions/5563783/jquery-class-click-multiple-elements-click-event-once
+        //         event.stopPropagation();
+        //         event.stopImmediatePropagation();
+        //         openNav();
+        //     })
+        // );
+    </script>
+</body>
+</html>
