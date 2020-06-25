@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,20 +31,20 @@ DEBUG = True    # for local development
 ALLOWED_HOSTS = [
     '127.0.0.1',\
     'family-tree-1996.herokuapp.com'
-    ]
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'tree.apps.TreeConfig',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages'                  # for django_storages module
 ]
 
 MIDDLEWARE = [
@@ -123,8 +125,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')     # this is for Heroku deployment
-STATIC_URL = '/static/'
+# For deployment, Django uses collectstatic command to gather all static files into a single dir
+# so you can serve them easily
+# -> python manage.py collectstatic
+if os.environ.get("USE_S3")=='True':
+    # Environment variables
+    AWS_ACCESS_KEY_ID       = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY   = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    # AWS_S3_FILE_OVERWRITE   = True
+    # AWS_DEFAULT_ACL         = None
+    # AWS_S3_CUSTOM_DOMAIN    = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    # AWS_LOCATION            = ''
+    # STATIC_URL              = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}'
+    STATICFILES_STORAGE     = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE    = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    # General optimization for faster delivery
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')     # this is for Heroku deployment
+    STATIC_URL = '/static/'
+
+# If your project has static assets that are not tied to a particular app,
+# you can define a list of directories STATICFILES_DIRS in your setting
+STATICFILES_DIRS = []
 
 # Configure Django App for Heroku.
 import django_heroku

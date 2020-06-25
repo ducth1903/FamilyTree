@@ -10,6 +10,6 @@ def index(request):
         flat_json = json.load(inJson)
 
     context = {
-        'flat_json': flat_json
+        'flat_json': flat_json,
     }
     return render(request, 'tree/index.html', context)

@@ -64,7 +64,9 @@
     <script>
         // Get context data from Django
         var flat_json = JSON.parse(document.getElementById('flat_json').textContent);
+        var img_url = "{% static 'tree/img/members' %}";
         console.log(flat_json);
+        console.log(img_url);
 
         function openNav(obj) { 
             document.getElementById("sideNav").style.width = "30%"; 
@@ -74,7 +76,8 @@
             if (flat_json[obj.id]["wife_name"] != null) {
                 // Wife info
                 document.getElementById("wifeName").innerHTML = flat_json[obj.id]["wife_name"];
-                document.getElementById("wifeImg").src = `static/tree/img/members/${flat_json[obj.id]["wife_img"]}`;
+                // document.getElementById("wifeImg").src = `static/tree/img/members/${flat_json[obj.id]["wife_img"]}`;
+                document.getElementById("wifeImg").src = `${img_url}/${flat_json[obj.id]["wife_img"]}`;
                 document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_json[obj.id]["wife_dob"]}`;
             }
             else {
@@ -86,7 +89,8 @@
             if (flat_json[obj.id]["husband_name"] != null) {
                 // Husband info
                 document.getElementById("husbandName").innerHTML = flat_json[obj.id]["husband_name"];
-                document.getElementById("husbandImg").src = `static/tree/img/members/${flat_json[obj.id]["husband_img"]}`;
+                // document.getElementById("husbandImg").src = `static/tree/img/members/${flat_json[obj.id]["husband_img"]}`;
+                document.getElementById("husbandImg").src = `${img_url}/${flat_json[obj.id]["husband_img"]}`;
                 document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_json[obj.id]["husband_dob"]}`;
             }
             else {
