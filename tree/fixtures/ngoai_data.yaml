@@ -1,0 +1,101 @@
+- model: tree.couple
+  pk: 1
+  fields: 
+    wife_name: Pham Thi Hoa Ly
+    wife_dob: 1939-05-12
+    wife_bornPlace: Ho Chi Minh City
+    wife_occupation: Biology Teacher
+    wife_email:
+    wife_deceasedDate: 2020-06-01
+    husband_name: Nguyen Tu
+    husband_dob: 1932-07-28
+    husband_bornPlace: Ha Nam City
+    husband_occupation: Math Teacher at Chu Van An High School
+    husband_email:
+    husband_deceasedDate:
+    parent_id:
+
+- model: tree.couple
+  pk: 2
+  fields:
+    wife_name: Nguyen Hong Hoa
+    wife_dob: 1969-09-13
+    wife_bornPlace: Hanoi
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Tran Dac Xuan
+    husband_dob: 1962-10-19
+    husband_bornPlace: Nam Dinh City
+    husband_occupation: CEO of KV1 Petrolimex
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 1
+  
+- model: tree.couple
+  pk: 3
+  fields:
+    wife_name: Nguyen Tung Hoa
+    wife_dob: 1962-10-29
+    wife_bornPlace: Hanoi
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Ngo Trung Son
+    husband_dob: 
+    husband_bornPlace: 
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 1
+
+- model: tree.couple
+  pk: 4
+  fields:
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Tran Hong Duc
+    husband_dob: 1996-03-19
+    husband_bornPlace: Hanoi
+    husband_occupation: DSP Software Engineer at Acacia Communications Inc./Cisco
+    husband_email: ducth1903@gmail.com
+    husband_deceasedDate:
+    parent_id: 2
+
+- model: tree.couple
+  pk: 5
+  fields:
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Tran Hong Hai
+    husband_dob: 2000-07-13
+    husband_bornPlace: Hanoi
+    husband_occupation: Melbourne University
+    husband_email: 
+    husband_deceasedDate:
+    parent_id: 2
+
+- model: tree.couple
+  pk: 6
+  fields:
+    wife_name: Tran Bao Ngoc
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation: Shopee
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Ngo Tung
+    husband_dob: 1991-07-26
+    husband_bornPlace: Hanoi
+    husband_occupation: PhD NUS
+    husband_email: 
+    husband_deceasedDate:
+    parent_id: 3

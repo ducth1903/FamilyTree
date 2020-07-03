@@ -1,0 +1,41 @@
+{% extends "tree/base.html" %}
+{% load static %}
+{% block content %}
+    {{ member_detail_json|json_script:"member_detail_json" }}
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span5">
+                <img id="memberImg" class="img-rounded">
+            </div>
+            <div class=span5>
+                <h2 id="memberName_h2"></h2>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Full name</th>
+                        <td id=memberName_table></td>
+                    </tr>
+                    <tr>
+                        <th>Date of birth</th>
+                        <td id="memberDoB_table"></td>
+                    </tr>
+                    <tr>
+                        <th>Occupation</th>
+                        <td id="memberOcc_table"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var member_detail_json = JSON.parse(document.getElementById('member_detail_json').textContent);
+        var img_url = "{% static 'tree/img/members' %}";
+        // console.log(member_detail_json);
+
+        document.getElementById("memberImg").src = `${img_url}/${member_detail_json["img"]}`;
+        document.getElementById("memberName_h2").innerHTML = member_detail_json["name"];
+        document.getElementById("memberName_table").innerHTML = member_detail_json["name"];
+        document.getElementById("memberDoB_table").innerHTML = member_detail_json["dob"];
+        document.getElementById("memberOcc_table").innerHTML = member_detail_json["occupation"];
+    </script>
+{% endblock content %}

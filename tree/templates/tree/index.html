@@ -1,49 +1,23 @@
+{% extends "tree/base.html" %}
 {% load static %}
-
-<!doctype html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-
-    <!-- stylesheets -->
-    <link rel="stylesheet" href="{% static 'tree/js/treant-js-master/Treant.css' %}" type="text/css"/>
-    <link rel="stylesheet" href="{% static 'tree/css/index.css' %}" type="text/css"/>
-    <!-- Bootstrap CSS (v2.2.2 since Treant.js uses jQuery v1.8) -->
-    <!-- https://bootstrapdocs.com/v2.2.2/docs/index.html -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap-responsive.css' %}" type="text/css">
-
-    <!-- javascript -->
-    <!-- Treant.js: https://fperucic.github.io/treant-js/ -->
-    <script src="https://kit.fontawesome.com/f06fa8d27a.js" crossorigin="anonymous"></script>
-    <script src="{% static 'tree/js/treant-js-master/vendor/raphael.js' %}"></script>
-    <script src="{% static 'tree/js/treant-js-master/Treant.js' %}"></script>
-    <script src="{% static 'tree/js/treant-js-master/vendor/jquery.min.js' %}"></script>
-
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
-    <script src="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/js/bootstrap.min.js' %}"></script>
-    <title>Family Tree</title>
-</head>
-<body>
+{% block content %}
     <!-- Sidebar -->
     <div id="sideNav" class="sidenav">
         <div>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <h2 style="color: aliceblue; text-align: center;" id="wifeName"></h2>
-            <img id="wifeImg" class="img-circle">
+            <a id="wifeMemberHref">
+                <img id="wifeImg" class="img-circle">
+            </a>
             <div class="unstyled">
                 <h4 style="color: aliceblue;" id="wifeDOB"></h4>
             </div>
         </div>
         <div class="innerMemberInfo">
             <h2 style="color: aliceblue; text-align: center;" id="husbandName"></h2>
-            <img id="husbandImg" class="img-circle">
+            <a id="husbandMemberHref">
+                <img id="husbandImg" class="img-circle">
+            </a>
             <div class="unstyled">
                 <h4 style="color: aliceblue;" id="husbandDOB"></h4>
             </div>
@@ -58,44 +32,91 @@
 
         <!-- Secure way to pass JSON from Django template to Javascript
         Ref: https://adamj.eu/tech/2020/02/18/safely-including-data-for-javascript-in-a-django-template/ -->
-        {{ flat_json|json_script:"flat_json" }}
+        {{ flat_tree_json|json_script:"flat_tree_json" }}
+        {{ tree_structure_json|json_script:"tree_structure_json" }}
     </div>
     
     <script>
         // Get context data from Django
-        var flat_json = JSON.parse(document.getElementById('flat_json').textContent);
+        var flat_tree_json = JSON.parse(document.getElementById('flat_tree_json').textContent);
         var img_url = "{% static 'tree/img/members' %}";
-        console.log(flat_json);
-        console.log(img_url);
+        // var member_url = "{% url 'tree-member' memberName='' as the_url %}";
+        var member_url = "{% url 'tree-member' as mem_url %}";
+        var tree_structure_json = JSON.parse(document.getElementById('tree_structure_json').textContent);
+        // tree_structure_json["nodeStructure"]["children"][0]["innerHTML"] = eval(tree_structure_json["nodeStructure"]["children"][0]["innerHTML"]);
+        eval_innerHTML_tree(tree_structure_json["nodeStructure"]);
+        // console.log(flat_tree_json);
+        // console.log(img_url);
+        // console.log(member_url);
+        console.log(tree_structure_json);
+
+        var simple_chart_config = tree_structure_json;
+
+        var my_chart = new Treant(
+            simple_chart_config,
+            function() {},
+            $
+        );
+
+        // -------------------------------------------------
+        // ----------------- Util function -----------------
+
+        // Function to iterate over tree_nodeStructure and eval innerHTML from string
+        function eval_innerHTML_tree(node) {
+            if ("children" in node) {
+                for (var i=0; i<node["children"].length; i++) {                
+                    eval_innerHTML_tree(node["children"][i]);                
+                }
+            }
+            node["innerHTML"] = eval(node["innerHTML"]);
+        }
+
+        function fill_img_blank(id) {
+            document.getElementById(id).src = `${img_url}/blank.png`;
+        }
 
         function openNav(obj) { 
             document.getElementById("sideNav").style.width = "30%"; 
             // document.getElementById("main").style.marginLeft = "30%";
             document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
             
-            if (flat_json[obj.id]["wife_name"] != null) {
+            if (flat_tree_json[obj.id]["wife_name"] != null) {
                 // Wife info
-                document.getElementById("wifeName").innerHTML = flat_json[obj.id]["wife_name"];
-                // document.getElementById("wifeImg").src = `static/tree/img/members/${flat_json[obj.id]["wife_img"]}`;
-                document.getElementById("wifeImg").src = `${img_url}/${flat_json[obj.id]["wife_img"]}`;
-                document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_json[obj.id]["wife_dob"]}`;
+                document.getElementById("wifeMemberHref").href = `${member_url}/${flat_tree_json[obj.id]["wife_name_norm"]}`;
+                document.getElementById("wifeName").innerHTML = flat_tree_json[obj.id]["wife_name"];
+                document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["wife_dob"]}`;
+                // document.getElementById("wifeImg").src = `static/tree/img/members/${flat_tree_json[obj.id]["wife_img"]}`;
+                if (flat_tree_json[obj.id]["wife_img"] != null) {
+                    document.getElementById("wifeImg").src = `${img_url}/${flat_tree_json[obj.id]["wife_img"]}`;
+                }
+                else {
+                    fill_img_blank("wifeImg");
+                }
             }
             else {
                 document.getElementById("wifeName").innerHTML = "N/A";
-                document.getElementById("wifeImg").src = 'static/tree/img/members/blank.png';
+                // document.getElementById("wifeImg").src = `${img_url}/blank.png`;
+                fill_img_blank("wifeImg");
                 document.getElementById("wifeDOB").innerHTML = 'DoB: N/A';
             }
 
-            if (flat_json[obj.id]["husband_name"] != null) {
+            if (flat_tree_json[obj.id]["husband_name"] != null) {
                 // Husband info
-                document.getElementById("husbandName").innerHTML = flat_json[obj.id]["husband_name"];
-                // document.getElementById("husbandImg").src = `static/tree/img/members/${flat_json[obj.id]["husband_img"]}`;
-                document.getElementById("husbandImg").src = `${img_url}/${flat_json[obj.id]["husband_img"]}`;
-                document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_json[obj.id]["husband_dob"]}`;
+                document.getElementById("husbandMemberHref").href = `${member_url}/${flat_tree_json[obj.id]["husband_name_norm"]}`;
+                document.getElementById("husbandName").innerHTML = flat_tree_json[obj.id]["husband_name"];
+                // document.getElementById("husbandImg").src = `static/tree/img/members/${flat_tree_json[obj.id]["husband_img"]}`;
+                document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["husband_dob"]}`;
+                if (flat_tree_json[obj.id]["husband_img"] != null) {
+                    document.getElementById("husbandImg").src = `${img_url}/${flat_tree_json[obj.id]["husband_img"]}`;
+                }
+                else {
+                    fill_img_blank("husbandImg");
+                }
             }
             else {
                 document.getElementById("husbandName").innerHTML = "N/A";
-                document.getElementById("husbandImg").src = 'static/tree/img/members/blank.png';
+                // document.getElementById("husbandImg").src = 'static/tree/img/members/blank.png';
+                fill_img_blank("husbandImg");
                 document.getElementById("husbandDOB").innerHTML = 'DoB: N/A';
             }
         }
@@ -112,66 +133,9 @@
             //     </div>
             // `;
             return `
-                <div class="clickableSidebarNode" onclick="openNav(this)" id=${id}>${wifeName} | ${husbandName}</div>
+                <div class='clickableSidebarNode' onclick='openNav(this)' id=${id}>${wifeName} | ${husbandName}</div>
             `;
         }
-
-        var simple_chart_config = {
-            chart: {
-                container: "#tree-simple",
-                hideRootNode: true,
-                connectors: {type: "step"},
-                // node: {collapsable: true},
-                siblingSeparation: 70,
-                levelSeparation: 50,
-                nodeAlign: "TOP",
-                // node: { HTMLclass: "tooltip" }
-            },
-            
-            nodeStructure: {
-                text: { name: "Root node" },
-                children: [
-                    {
-                        // text: { name: "Second family" },
-                        innerHTML: generateInnerHTML("Pham Thi Hoa Ly", "Nguyen Tu", "0"),
-                        // HTMLclass: "tooltip",
-                        HTMLid: "second_family_id",
-                        children: [
-                            {   // first child
-                                innerHTML: generateInnerHTML("Nguyen Hong Hoa", "Tran Dac Xuan", "0.0"),
-                                // HTMLclass: "tooltip",
-                                children: [
-                                    {
-                                        innerHTML: generateInnerHTML("Tran Hong Duc", "N/A", "0.0.0"),
-                                        // HTMLclass: "tooltip",
-                                    },
-                                    {
-                                        innerHTML: generateInnerHTML("Tran Hong Hai", "N/A", "0.0.1"),
-                                        // HTMLclass: "tooltip",
-                                    }
-                                ]
-                            },
-                            {   // second child
-                                innerHTML: generateInnerHTML("Nguyen Tung Hoa", "Ngo Trung Son", "0.1"),
-                                // HTMLclass: "tooltip",
-                                children: [
-                                    {
-                                        innerHTML: generateInnerHTML("Ngo Tung", "Ngoc", "0.1.2"),
-                                        // HTMLclass: "tooltip",
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-
-        var my_chart = new Treant(
-            simple_chart_config,
-            function() {},
-            $
-        );
 
         // var jsonData = JSON.parse(flat_ngoai_data);
         // $(document).ready(
@@ -186,5 +150,4 @@
         //     })
         // );
     </script>
-</body>
-</html>
+{% endblock content %}
