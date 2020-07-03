@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(n)72&4&v1u9*jui)f!jue6bxf53w5+kuh0pa8z7ci038gi(7l'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True    # for local development
@@ -153,6 +154,5 @@ else:
 # you can define a list of directories STATICFILES_DIRS in your setting
 STATICFILES_DIRS = []
 
-# Configure Django App for Heroku.
-import django_heroku
+# Configure Django App for Heroku
 django_heroku.settings(locals())
