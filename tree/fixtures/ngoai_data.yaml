@@ -87,15 +87,15 @@
   pk: 6
   fields:
     wife_name: Tran Bao Ngoc
-    wife_dob: 
+    wife_dob: 1991-04-21
     wife_bornPlace: 
     wife_occupation: Shopee
-    wife_email:
+    wife_email: annie.ngoctran@gmail.com
     wife_deceasedDate:
     husband_name: Ngo Tung
     husband_dob: 1991-07-26
     husband_bornPlace: Hanoi
     husband_occupation: PhD NUS
-    husband_email: 
+    husband_email: tungika91@gmail.com
     husband_deceasedDate:
     parent_id: 3
