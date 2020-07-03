@@ -38,11 +38,23 @@ def displayMember(request, memberName):
 def __process_blank_img(json_obj):
     # Process flat_tree_json: replace image path to blank.jpg 
     # if image does not exist
+    # NOTE: while deploying to Heroku, there is a glitch that capitalize .jpg to .JPG for some images only 
     for k,v in json_obj.items():
-        if 'wife_img' in v and not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{v['wife_img']}")):
-            v['wife_img'] = 'blank.png'
-        if 'husband_img' in v and not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{v['husband_img']}")):
-            v['husband_img'] = 'blank.png'
+        if 'wife_img' in v:
+            img_jpg = v['wife_img']
+            img_jpg_split = img_jpg.split('.')
+            img_JPG = '.'.join( [img_jpg_split[0], img_jpg_split[1].upper()] )
+            if not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_jpg}")) or \
+                not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_JPG}")):
+                v['wife_img'] = 'blank.png'
+
+        if 'husband_img' in v:
+            img_jpg = v['husband_img']
+            img_jpg_split = img_jpg.split('.')
+            img_JPG = '.'.join( [img_jpg_split[0], img_jpg_split[1].upper()] )
+            if not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_jpg}")) or \
+                not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_JPG}")):
+                v['husband_img'] = 'blank.png'
 
         # flat_member_json
         if 'img' in v and not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{v['img']}")):
