@@ -164,6 +164,13 @@
             `;
         }
 
+        $(document).ready(function(){
+                if($(window).width() < 600) {
+                    alert("Screen width is too small. You may want to rotate to landscape mode");
+                }
+            }
+        );
+
         // var jsonData = JSON.parse(flat_ngoai_data);
         // $(document).ready(
         //     $(".node").on('click', function(event){
