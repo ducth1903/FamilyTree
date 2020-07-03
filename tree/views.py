@@ -63,6 +63,14 @@ def __process_blank_img(json_obj):
                 v['husband_img'] = 'blank.png'
 
         # flat_member_json
-        if 'img' in v and not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{v['img']}")):
-            v['img'] = 'blank.png'
+        if 'img' in v:
+            img_jpg = v['img']
+            img_jpg_split = img_jpg.split('.')
+            img_JPG = '.'.join( [img_jpg_split[0], img_jpg_split[1].upper()] )
+            if os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_jpg}")):
+                pass
+            elif os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_JPG}")):
+                v['img'] = img_JPG
+            else:
+                v['img'] = 'blank.png'
     return json_obj
