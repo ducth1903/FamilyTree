@@ -44,8 +44,11 @@ def __process_blank_img(json_obj):
             img_jpg = v['wife_img']
             img_jpg_split = img_jpg.split('.')
             img_JPG = '.'.join( [img_jpg_split[0], img_jpg_split[1].upper()] )
-            if not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_jpg}")) and \
-                not os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_JPG}")):
+            if os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_jpg}")):
+                pass
+            elif os.path.exists(os.path.join(os.getcwd(), f"tree/static/tree/img/members/{img_JPG}")):
+                v['wife_img'] = img_JPG
+            else:
                 v['wife_img'] = 'blank.png'
 
         if 'husband_img' in v:
