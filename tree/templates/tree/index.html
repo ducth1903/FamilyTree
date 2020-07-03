@@ -94,6 +94,7 @@
                 }
             }
             else {
+                document.getElementById("wifeMemberHref").removeAttribute("href");
                 document.getElementById("wifeName").innerHTML = "N/A";
                 // document.getElementById("wifeImg").src = `${img_url}/blank.png`;
                 fill_img_blank("wifeImg");
@@ -114,6 +115,7 @@
                 }
             }
             else {
+                document.getElementById("husbandMemberHref").removeAttribute("href");
                 document.getElementById("husbandName").innerHTML = "N/A";
                 // document.getElementById("husbandImg").src = 'static/tree/img/members/blank.png';
                 fill_img_blank("husbandImg");
