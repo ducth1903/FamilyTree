@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -147,7 +147,7 @@ if os.environ.get("USE_S3")=='True':
         'CacheControl': 'max-age=86400',
     }
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')     # this is for Heroku deployment
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')         # this is for Heroku deployment
     STATIC_URL = '/static/'
 
 # If your project has static assets that are not tied to a particular app,
