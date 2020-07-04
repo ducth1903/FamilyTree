@@ -130,22 +130,23 @@ USE_TZ = True
 # so you can serve them easily
 # -> python manage.py collectstatic
 if os.environ.get("USE_S3")=='True':
+    print("S3 is ON...")
     # Environment variables
     AWS_ACCESS_KEY_ID       = os.environ.get("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY   = os.environ.get("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_FILE_OVERWRITE   = False
-    AWS_DEFAULT_ACL         = None
-    # AWS_S3_CUSTOM_DOMAIN    = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    # AWS_LOCATION            = ''
-    # STATIC_URL              = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}'
-    # STATICFILES_STORAGE     = 'storages.backends.s3boto3.S3Boto3Storage'
+    # AWS_S3_FILE_OVERWRITE   = False
+    # AWS_DEFAULT_ACL         = None
+    # AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}            # General optimization for faster delivery
+    # AWS_S3_VERIFY           = True
+
+    # S3 static settings
+    # AWS_LOCATION            = 'static'
+    STATIC_URL              = f'http://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+    STATIC_ROOT             = 'staticfiles'
+    STATICFILES_STORAGE     = 'storages.backends.s3boto3.S3Boto3Storage'
     DEFAULT_FILE_STORAGE    = 'storages.backends.s3boto3.S3Boto3Storage'
 
-    # General optimization for faster delivery
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')         # this is for Heroku deployment
     STATIC_URL = '/static/'

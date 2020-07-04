@@ -10,6 +10,7 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap-responsive.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
 
     <!-- javascript -->
     <!-- Treant.js: https://fperucic.github.io/treant-js/ -->
@@ -52,7 +53,7 @@
     <!-- MAIN -->
     <!-- Put in div main if want to push page to the right when showing sidenav -->
     <div id="main" class="container-fluid">
-        <h1 style="text-align: center;">My Family Tree</h1>
+        <h1 style="text-align: center;">My Family <i class="fa fa-tree" aria-hidden="true"></i></h1>
         <div id="tree-simple"></div>
 
         <!-- Secure way to pass JSON from Django template to Javascript

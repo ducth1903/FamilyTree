@@ -25,12 +25,12 @@ class Command(BaseCommand):
                 self.__process_img(husband_raw_img)
 
     def __process_img(self, inImg):
-            def resize_single_img(inImgPath, sizeThreshold=500):
-                if type(inImgPath)==str:
-                    raw_img = Image.open(inImgPath)
-                    if raw_img.height > sizeThreshold or raw_img.width > sizeThreshold:
-                        output_size = (sizeThreshold, sizeThreshold)
-                        raw_img.thumbnail(output_size)
-                        raw_img.save(os.path.join(out_img_path, os.path.split(inImgPath)[1]))
+        def resize_single_img(inImgPath, sizeThreshold=500):
+            if type(inImgPath)==str:
+                raw_img = Image.open(inImgPath)
+                if raw_img.height > sizeThreshold or raw_img.width > sizeThreshold:
+                    output_size = (sizeThreshold, sizeThreshold)
+                    raw_img.thumbnail(output_size)
+                    raw_img.save(os.path.join(out_img_path, os.path.split(inImgPath)[1]))
 
-            resize_single_img(inImg)
+        resize_single_img(inImg)
