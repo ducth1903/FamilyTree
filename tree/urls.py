@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='tree-index'),
-    path('<str:memberName>', views.displayMember, name='tree-member'),
+    path('ngoai', views.ngoai, name='tree-ngoai'),
+    path('member/<str:memberName>', views.displayMember, name='tree-member'),
 ]

@@ -1,0 +1,288 @@
+- model: tree.couple
+  pk: 1
+  fields: 
+    wife_name: Tran Thi Thoi
+    wife_dob: 1927-01-01
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 2014-11-29
+    husband_name: Tran Dac Huan
+    husband_dob: 1928-01-01
+    husband_bornPlace: 
+    husband_occupation: Cao dang su pham Ky thuat Nam Dinh
+    husband_email:
+    husband_deceasedDate: 2009-10-18
+    parent_id:
+
+- model: tree.couple
+  pk: 2
+  fields: 
+    wife_name: Tran Thi Thu
+    wife_dob: 1956-02-14
+    wife_bornPlace: Nam Dinh City
+    wife_occupation: Giao vien tai Cong Nhan Ky thuat nghe Ninh Binh
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Tran Duc Thanh
+    husband_dob: 1955-05-05
+    husband_bornPlace: thon Ngo Quan, Nam Dinh City
+    husband_occupation: Truong phong dao tao tai Cao dang day nghe Ninh Binh
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 1
+
+- model: tree.couple
+  pk: 3
+  fields: 
+    wife_name: Nguyen Hong Hoa
+    wife_dob: 1969-09-13
+    wife_bornPlace: Hanoi
+    wife_occupation: Cong ty co phan quoc te Smart
+    wife_email: 
+    wife_deceasedDate: 
+    husband_name: Tran Dac Xuan
+    husband_dob: 1962-10-19
+    husband_bornPlace: thon Ngo Quan, Nam Dinh
+    husband_occupation: CEO Cong ty xang dau khu vuc I
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 1
+
+- model: tree.couple
+  pk: 4
+  fields: 
+    wife_name: Vu Thi Su
+    wife_dob: 1963-09-14
+    wife_bornPlace: huyen Binh Luc, Nam Dinh
+    wife_occupation: Farmer
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Tran Dac Phuc
+    husband_dob: 1965-01-01
+    husband_bornPlace: thon Ngo Quan, Nam Dinh
+    husband_occupation: Farmer
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 1
+
+- model: tree.couple
+  pk: 5
+  fields: 
+    wife_name: Tran Thi Thu Huong
+    wife_dob: 1970-08-22
+    wife_bornPlace: thon Ngo Quan, Nam Dinh
+    wife_occupation: Nha may det Nam Dinh
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Vu Viet Hiep
+    husband_dob: 1963-03-16
+    husband_bornPlace: Nam Dinh
+    husband_occupation: Nghe moc
+    husband_email:
+    husband_deceasedDate: 2015-01-01
+    parent_id: 1
+
+- model: tree.couple
+  pk: 6
+  fields: 
+    wife_name: Tran Thu Ha
+    wife_dob: 1978-09-26
+    wife_bornPlace: Nam Dinh
+    wife_occupation: Cong ty xang dau Ha Nam Ninh
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Dinh Lenh Thong
+    husband_dob: 1969-09-26
+    husband_bornPlace: Hoa Lu, Ninh Binh
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 2
+
+- model: tree.couple
+  pk: 7
+  fields: 
+    wife_name: Tran Thu Hang
+    wife_dob: 1980-07-05
+    wife_bornPlace: Nam Dinh
+    wife_occupation: Cong ty xang dau khu vuc I
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Pham Minh Hai
+    husband_dob: 1976-09-10
+    husband_bornPlace: Dinh Binh, Thanh Hoa
+    husband_occupation: Quan doi nhan dan Viet Nam
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 2
+
+- model: tree.couple
+  pk: 8
+  fields: 
+    wife_name: Hoang Bao Chau
+    wife_dob: 
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Tran Thanh Tung
+    husband_dob: 1987-06-22
+    husband_bornPlace: Nam Dinh
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 2
+
+- model: tree.couple
+  pk: 9
+  fields:
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Tran Hong Duc
+    husband_dob: 1996-03-19
+    husband_bornPlace: Hanoi
+    husband_occupation: DSP Software Engineer at Acacia Communications Inc./Cisco
+    husband_email: ducth1903@gmail.com
+    husband_deceasedDate:
+    parent_id: 3
+
+- model: tree.couple
+  pk: 10
+  fields:
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation:
+    wife_email:
+    wife_deceasedDate:
+    husband_name: Tran Hong Hai
+    husband_dob: 2000-07-13
+    husband_bornPlace: Hanoi
+    husband_occupation: Melbourne University
+    husband_email: 
+    husband_deceasedDate:
+    parent_id: 3
+
+- model: tree.couple
+  pk: 11
+  fields: 
+    wife_name: Tran Thi Huong
+    wife_dob: 1989-10-14
+    wife_bornPlace: thon Ngo Quan, Nam Dinh
+    wife_occupation: Cong ty xang dau Na Nam Ninh
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Tran Van Lang
+    husband_dob: 1985-09-03
+    husband_bornPlace: thon Phu Da, Nam Dinh
+    husband_occupation: Cong ty co phan thuong mai dien va van tai Petrolimex Hanoi
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 4
+
+- model: tree.couple
+  pk: 12
+  fields: 
+    wife_name: Le Thu
+    wife_dob: 
+    wife_bornPlace: 
+    wife_occupation: Giao vien mam non tai Nam Dinh 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Tran Duc Thinh
+    husband_dob: 1991-10-19
+    husband_bornPlace: Nam Dinh
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 4
+
+- model: tree.couple
+  pk: 13
+  fields: 
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Vu Tran Thang
+    husband_dob: 1995-12-21
+    husband_bornPlace: Nam Dinh
+    husband_occupation: Cong ty xang dau khu vuc I
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 5
+
+- model: tree.couple
+  pk: 14
+  fields: 
+    wife_name: Dinh Thuy Hien
+    wife_dob: 2001-09-26
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: 
+    husband_dob: 
+    husband_bornPlace: 
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 6
+
+- model: tree.couple
+  pk: 15
+  fields: 
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Dinh Truong Giang
+    husband_dob: 2005-03-01
+    husband_bornPlace: 
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 6
+
+- model: tree.couple
+  pk: 16
+  fields: 
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Pham Minh Hoang
+    husband_dob: 2011-07-21
+    husband_bornPlace: 
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 7
+
+- model: tree.couple
+  pk: 17
+  fields: 
+    wife_name: 
+    wife_dob: 
+    wife_bornPlace:
+    wife_occupation: 
+    wife_email:
+    wife_deceasedDate: 
+    husband_name: Pham Minh Huy
+    husband_dob: 2014-05-31
+    husband_bornPlace: 
+    husband_occupation: 
+    husband_email:
+    husband_deceasedDate:
+    parent_id: 7

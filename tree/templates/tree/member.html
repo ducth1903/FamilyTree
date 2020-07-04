@@ -29,7 +29,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'tree-index' %}">Home <span class="sr-only">(current)</span></a>
+                    {% if not origin %}
+                        <a class="nav-link" href="{% url 'tree-index' %}">Back to Tree <span class="sr-only">(current)</span></a>
+                    {% else %}
+                        <a class="nav-link" href="/ngoai">Back to Tree <span class="sr-only">(current)</span></a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
@@ -45,7 +49,7 @@
             </div>
             <div class=col>
                 <h2 id="memberName_h2"></h2>
-                <table class="table table-striped table-hover table-responsive">
+                <table class="table table-striped table-hover table-responsive" id="tree_table">
                     <tr>
                         <th>Full Name</th>
                         <td id=memberName_table></td>
@@ -62,6 +66,13 @@
                         <th>Occupation</th>
                         <td id="memberOcc_table"></td>
                     </tr>
+                    <!-- {{ member_detail_json.deceasedDate }} -->
+                    {% if member_detail_json.deceasedDate %}
+                        <tr>
+                            <th>Deceased Date</th>
+                            <td>{{ member_detail_json.deceasedDate }}</td>
+                        </tr>
+                    {% endif %}
                 </table>
             </div>
         </div>
@@ -78,5 +89,6 @@
         document.getElementById("memberDoB_table").innerHTML = member_detail_json["dob"];
         document.getElementById("memberBornPlace_table").innerHTML = member_detail_json["bornPlace"];
         document.getElementById("memberOcc_table").innerHTML = member_detail_json["occupation"];
+
     </script>
 {% endblock content %}

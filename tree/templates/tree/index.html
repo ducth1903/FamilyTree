@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/css/bootstrap-responsive.css' %}" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="{% static 'tree/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.css' %}" type="text/css"/>
 
     <!-- javascript -->
     <!-- Treant.js: https://fperucic.github.io/treant-js/ -->
@@ -18,6 +19,8 @@
     <script src="{% static 'tree/js/treant-js-master/vendor/raphael.js' %}"></script>
     <script src="{% static 'tree/js/treant-js-master/Treant.js' %}"></script>
     <script src="{% static 'tree/js/treant-js-master/vendor/jquery.min.js' %}"></script>
+    <script src="{% static 'tree/js/treant-js-master/vendor/jquery.mousewheel.js' %}"></script>
+    <script src="{% static 'tree/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
@@ -25,6 +28,23 @@
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
     <script src="{% static 'tree/vendor/bootstrap-2.2.2/docs/assets/js/bootstrap.min.js' %}"></script>
 {% endblock header %}
+
+{% block navbar %}
+<div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="/"><i class="fa fa-tree" aria-hidden="true"></i></a>
+      <ul class="nav">
+        {% if isNoi %}
+            <li class="active"><a href="/">Noi</a></li>
+            <li><a href="/ngoai">Ngoai</a></li>
+        {% else %}
+            <li><a href="/">Noi</a></li>
+            <li class="active"><a href="/ngoai">Ngoai</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+{% endblock navbar %}
 
 {% block content %}
     <!-- Sidebar -->
@@ -108,9 +128,9 @@
             
             if (flat_tree_json[obj.id]["wife_name"] != null) {
                 // Wife info
-                document.getElementById("wifeMemberHref").href = `${member_url}/${flat_tree_json[obj.id]["wife_name_norm"]}`;
+                document.getElementById("wifeMemberHref").href = `${member_url}/member/${flat_tree_json[obj.id]["wife_name_norm"]}`;
                 document.getElementById("wifeName").innerHTML = flat_tree_json[obj.id]["wife_name"];
-                document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["wife_dob"]}`;
+                // document.getElementById("wifeDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["wife_dob"]}`;
                 // document.getElementById("wifeImg").src = `static/tree/img/members/${flat_tree_json[obj.id]["wife_img"]}`;
                 if (flat_tree_json[obj.id]["wife_img"] != null) {
                     document.getElementById("wifeImg").src = `${img_url}/${flat_tree_json[obj.id]["wife_img"]}`;
@@ -124,15 +144,15 @@
                 document.getElementById("wifeName").innerHTML = "N/A";
                 // document.getElementById("wifeImg").src = `${img_url}/blank.png`;
                 fill_img_blank("wifeImg");
-                document.getElementById("wifeDOB").innerHTML = 'DoB: N/A';
+                // document.getElementById("wifeDOB").innerHTML = 'DoB: N/A';
             }
 
             if (flat_tree_json[obj.id]["husband_name"] != null) {
                 // Husband info
-                document.getElementById("husbandMemberHref").href = `${member_url}/${flat_tree_json[obj.id]["husband_name_norm"]}`;
+                document.getElementById("husbandMemberHref").href = `${member_url}/member/${flat_tree_json[obj.id]["husband_name_norm"]}`;
                 document.getElementById("husbandName").innerHTML = flat_tree_json[obj.id]["husband_name"];
                 // document.getElementById("husbandImg").src = `static/tree/img/members/${flat_tree_json[obj.id]["husband_img"]}`;
-                document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["husband_dob"]}`;
+                // document.getElementById("husbandDOB").innerHTML = `DoB: ${flat_tree_json[obj.id]["husband_dob"]}`;
                 if (flat_tree_json[obj.id]["husband_img"] != null) {
                     document.getElementById("husbandImg").src = `${img_url}/${flat_tree_json[obj.id]["husband_img"]}`;
                 }
@@ -145,7 +165,7 @@
                 document.getElementById("husbandName").innerHTML = "N/A";
                 // document.getElementById("husbandImg").src = 'static/tree/img/members/blank.png';
                 fill_img_blank("husbandImg");
-                document.getElementById("husbandDOB").innerHTML = 'DoB: N/A';
+                // document.getElementById("husbandDOB").innerHTML = 'DoB: N/A';
             }
         }
         function closeNav() { 
@@ -161,7 +181,9 @@
             //     </div>
             // `;
             return `
-                <div class='clickableSidebarNode' onclick='openNav(this)' id=${id}>${wifeName} | ${husbandName}</div>
+                <div class='clickableSidebarNode' onclick='openNav(this)' id=${id}>
+                    ${wifeName}<br/>${husbandName}
+                </div>
             `;
         }
 

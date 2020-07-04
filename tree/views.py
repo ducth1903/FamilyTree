@@ -5,14 +5,24 @@ import os
 import pathlib
 
 # reference from root, i.e. Family_tree/django_family_tree
-with open('tree/treeData/flat_data.json', 'r') as inJson:
+with open('tree/treeData/flat_data_noi.json', 'r') as inJson:
     flat_tree_json = json.load(inJson)
 
-with open('tree/treeData/flat_member_data.json', 'r') as inMemberJson:
+with open('tree/treeData/flat_member_data_noi.json', 'r') as inMemberJson:
     flat_member_json = json.load(inMemberJson)
 
-with open('tree/treeData/tree_structure.json', 'r') as inTreeStructure:
+with open('tree/treeData/tree_structure_noi.json', 'r') as inTreeStructure:
     tree_structure_json = json.load(inTreeStructure)
+
+# Ngoai data
+with open('tree/treeData/flat_data_ngoai.json', 'r') as inJson:
+    flat_tree_ngoai_json = json.load(inJson)
+
+with open('tree/treeData/flat_member_data_ngoai.json', 'r') as inMemberJson:
+    flat_member_ngoai_json = json.load(inMemberJson)
+
+with open('tree/treeData/tree_structure_ngoai.json', 'r') as inTreeStructure:
+    tree_structure_ngoai_json = json.load(inTreeStructure)
 
 # Create your views here.
 def index(request):
@@ -22,16 +32,40 @@ def index(request):
     context = {
         'flat_tree_json': flat_tree_json,
         'tree_structure_json': tree_structure_json,
+        'isNoi': 'yes',
+    }
+    return render(request, 'tree/index.html', context)
+
+def ngoai(request):
+    global flat_tree_ngoai_json
+    flat_tree_ngoai_json = __process_blank_img(flat_tree_ngoai_json)
+
+    context = {
+        'flat_tree_json': flat_tree_ngoai_json,
+        'tree_structure_json': tree_structure_ngoai_json,
+        'isNoi': None,
     }
     return render(request, 'tree/index.html', context)
 
 def displayMember(request, memberName):
-    global flat_member_json
-    flat_member_json = __process_blank_img(flat_member_json)
+    global flat_member_json, flat_tree_ngoai_json
+    # Check if origin of request sent from noi/ or ngoai/ url
+    # Append this to "Back to Tree" button so can go back to the corresponding tree
+    origin = request.META['HTTP_REFERER']
+    origin = origin.replace("//", "")
+    origin = origin.split('/')[1].strip()
+    origin = origin if origin else None
 
+    if memberName in flat_member_json:
+        member_json = flat_member_json
+    if memberName in flat_member_ngoai_json:
+        member_json = flat_member_ngoai_json
+    member_json = __process_blank_img(member_json)
+    
     context = {
         'memberName': memberName,
-        'member_detail_json': flat_member_json[memberName]
+        'member_detail_json': member_json[memberName],
+        'origin': origin
     }
     return render(request, 'tree/member.html', context)
 

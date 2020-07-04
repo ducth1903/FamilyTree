@@ -54,7 +54,8 @@ tree_structure_json = {
         "connectors": {"type": "step"},
         "siblingSeparation": 70,
         "levelSeparation": 50,
-        "nodeAlign": "TOP"
+        "nodeAlign": "TOP",
+        "scrollbar": "fancy"
     },
     
     "nodeStructure": {
@@ -68,9 +69,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         # To use debug, do: "python manage.py genTreeStructure -debug"
         parser.add_argument('-debug', action='store_true')
+        parser.add_argument('noi_ngoai', help="'noi' if noi_data; 'ngoai' if ngoai_data")
 
     def handle(self, *args, **options):
         debug = options['debug']
+        noi_or_ngoai = options['noi_ngoai'].lower()
+        if noi_or_ngoai not in ['noi', 'ngoai']:
+            raise Exception("Invalid input -- please use 'noi' or 'ngoai' only")
+
         # Initialize
         tree_children_list = []
         visited_id = set()
@@ -92,7 +98,8 @@ class Command(BaseCommand):
             curr_node_out = {
                 "id": curr_couple.id,
                 "innerHTML": f"generateInnerHTML('{curr_couple.wife_name if curr_couple.wife_name else 'N/A'}', '{curr_couple.husband_name if curr_couple.husband_name else 'N/A'}', '{curr_couple.id}')",
-                "children": []
+                "stackChildren": True,
+                # "children": []
             }
             if curr_parentId not in all_parent_id:
                 # Must be root
@@ -119,7 +126,7 @@ class Command(BaseCommand):
 
         # Adding final result to tree_structure_json and save to treeData/tree_structure.json
         tree_structure_json["nodeStructure"]["children"] = tree_children_list
-        with open("tree/treeData/tree_structure.json", 'w') as outFile:
+        with open(f"tree/treeData/tree_structure_{noi_or_ngoai}.json", 'w') as outFile:
             json.dump(tree_structure_json, outFile)
 
 
@@ -143,7 +150,7 @@ class Command(BaseCommand):
                         flat_data_json[f"{curr_couple.id}"]["husband_img"] = f"{''.join( curr_couple.husband_name.lower().split() )}.jpg"
 
                     flat_data_json[f"{curr_couple.id}"][col] = getattr(curr_couple, col)
-        with open("tree/treeData/flat_data.json", 'w') as outFile:
+        with open(f"tree/treeData/flat_data_{noi_or_ngoai}.json", 'w') as outFile:
             json.dump(flat_data_json, outFile, cls=DjangoJSONEncoder)
 
 
@@ -166,7 +173,7 @@ class Command(BaseCommand):
             if "husband_name_norm" in value:
                 all_cols_short_v = [value[f"husband_{c}"] for c in all_cols_short]
                 flat_member_data_json[f"{value['husband_name_norm']}"] = {k:v for (k,v) in zip(all_cols_short, all_cols_short_v)}
-        with open("tree/treeData/flat_member_data.json", 'w') as outFile:
+        with open(f"tree/treeData/flat_member_data_{noi_or_ngoai}.json", 'w') as outFile:
             json.dump(flat_member_data_json, outFile, cls=DjangoJSONEncoder)
 
 
@@ -174,7 +181,9 @@ class Command(BaseCommand):
     def __utilBFS__(self, childNode, parentId, tree, visited_bfs):
         for st in tree:
             if st["id"]==parentId:
+                if "children" not in st: st["children"] = []
                 st["children"].append(childNode)
             elif st["id"] not in visited_bfs:
                 visited_bfs.add(st["id"])
-                self.__utilBFS__(childNode, parentId, st["children"], visited_bfs)
+                if "children" in st:
+                    self.__utilBFS__(childNode, parentId, st["children"], visited_bfs)
