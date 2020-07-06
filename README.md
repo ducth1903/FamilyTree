@@ -8,6 +8,8 @@
 
 <h3>Getting Started</h3>
 
+Web: https://family-tree-1996.herokuapp.com/
+
 ```bash
 ~$ python manage.py runserver
 
