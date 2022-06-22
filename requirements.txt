@@ -39,7 +39,7 @@ kappa==0.6.0
 lxml==4.4.1
 Mako==1.1.0
 MarkupSafe==1.1.1
-numpy==1.18.3
+numpy==1.22.0
 pandas==1.0.3
 parse==1.12.1
 Pillow==7.1.2
